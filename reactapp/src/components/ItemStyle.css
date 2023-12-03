@@ -1,0 +1,9 @@
+.product{
+    display: flex;
+    border: solid;
+    margin: 1em;
+}
+
+.product h3{
+    color:red;
+}

@@ -1,0 +1,21 @@
+.categories-component{
+    border-bottom: 1px solid black;
+    margin: 2em
+}
+.category-list {
+    list-style-type: none;
+    list-style: none;
+    display: flex;
+    padding: 0; /* Dodaj to, aby usunąć domyślne wewnętrzne marginesy listy */   
+}
+
+.category-list li {
+    flex-grow: 1; /* Sprawia, że elementy li będą zajmować dostępną przestrzeń */
+}
+
+.category-list a {
+    margin: 0 1em; /* Usunięcie marginesu na lewo i prawo */
+    color: black;
+    text-decoration: none;
+    display: block; /* Ustawienie a na blok, aby mogło zajmować całą dostępną szerokość w li */
+}
