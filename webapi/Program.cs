@@ -1,9 +1,14 @@
+using App.DAL;
+using Microsoft.EntityFrameworkCore;
+
 internal class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+          options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
         // Add services to the container.
 
         builder.Services.AddControllers();
@@ -14,7 +19,12 @@ internal class Program
         var app = builder.Build();
 
 
-
+        app.UseCors(b =>
+        {
+            b.AllowAnyOrigin();
+            b.AllowAnyMethod();
+            b.AllowAnyHeader();
+        });
         // Configure the HTTP request pipeline.
 
 
