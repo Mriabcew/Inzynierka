@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { white } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
 
 
 function LogoBarComponent() {
@@ -17,10 +18,7 @@ function LogoBarComponent() {
 
   const open = Boolean(anchorEl);
 
-  const handleSearch = (searchTerm) => {
-    // Tutaj możesz umieścić logikę obsługi wyszukiwania
-    console.log('Wyszukiwane hasło:', searchTerm);
-  };
+ 
 
   const handleIconClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,14 +48,16 @@ function LogoBarComponent() {
 
   return (
     <div style={styles.logoBar}>
+       <Link to={'/'} style={styles.logoLink}>
       <div style={styles.logoWithText}>
+         
           <img src="logo512.png" alt="Logo" style={styles.logo} />
           <div style={styles.text}></div>
         </div>
+        </Link>
       <div style={styles.searchBar}>
         <SearchbarComponent/>
       </div>
-
       <div style={styles.loginButton}>  
       <IconButton aria-label="delete" size="large">
           <AccountCircleIcon fontSize="large" sx={{ color: 'white' }} onClick={handleIconClick}/>
@@ -143,7 +143,8 @@ function LogoBarComponent() {
                 '&:hover': {
                     background: '#E6AF2E', 
                   },
-                }} >
+                }} 
+                href='/register'>
                 Nie masz konta? Zarejstruj się
               </Button>
                 
@@ -198,7 +199,11 @@ const styles = {
   },
   searchBar: {
     width: '60%',
+    justifyContent: 'center'
   },
+  logoLink: {
+    width: '20%',
+  }
 
 };
 

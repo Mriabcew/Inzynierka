@@ -1,7 +1,9 @@
 .product{
     display: flex;
-    border: solid;
+    border: solid 1px #E6AF2E;
     margin: 1em;
+    border-radius: 1em;
+    padding: 1em;
 }
 
 .product h3{

@@ -13,7 +13,7 @@ function StartPage() {
       </div>
       <div>
         <ItemListComponent products={data.productsData} /> {/* Poprawiono przekazanie danych */}
-      </div>
+    </div>
     </div>
   );
 }
