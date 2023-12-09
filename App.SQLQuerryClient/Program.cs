@@ -10,13 +10,13 @@ namespace App.SQLQuerryClient
             SQLEngine sqlEngine = new SQLEngine();
 
             // Ustawiamy zapytanie NLP
-            sqlEngine.NPLQuery = @"pies golden retriver do 100 zł";
+            sqlEngine.NPLQuery = @"od 10 do 50 zł";
 
             // Pobieramy zapytanie SQL
             string sqlQuery = sqlEngine.GetSQLQuery();
 
             // Wyświetlamy wynik
-            Console.WriteLine($"NPL Query: {sqlEngine.NPLQuery}");
+            Console.WriteLine($"NPL Query: {sqlEngine.NPLQuery}\n\n");
             Console.WriteLine($"Generated SQL Query: {sqlQuery}");
         }
     }
