@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace App.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,6 @@ namespace App.DAL.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    UserPhotoId = table.Column<Guid>(type: "uuid", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
                     UserAvatarPath = table.Column<string>(type: "text", nullable: false)
                 },
@@ -38,6 +37,7 @@ namespace App.DAL.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: true)

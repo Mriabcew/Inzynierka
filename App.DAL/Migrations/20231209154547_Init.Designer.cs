@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace App.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231206215332_Databaseupdate")]
-    partial class Databaseupdate
+    [Migration("20231209154547_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace App.DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

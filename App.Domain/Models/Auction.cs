@@ -18,6 +18,8 @@ namespace App.Domain.Models
         public string Name { get; set; }
         public string Description { get; set; }
         [Required]
+        public decimal Price { get; set; }
+        [Required]
         public DateTime CreatedDate { get; set;}
         [Required]
         public OfferStatus Status { get; set; }

@@ -39,6 +39,9 @@ namespace App.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
