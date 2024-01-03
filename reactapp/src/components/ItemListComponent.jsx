@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Item from './ItemComponent'; // Importujemy komponent pojedynczego produktu
 import './ItemListStyle.css';
 import MyPagination from './MyPaginationComponent';
@@ -22,13 +23,14 @@ const ItemListComponent = ({ products }) => {
   return (
     <div className="product-list">
       {productsToShow.map((product) => (
+        <Link to={`/Item/${product.id}`}>
         <Item
           key={product.id}
           id={product.id}
           name={product.name}
           price={product.price}
           description={product.description}
-        />
+        /></Link>
       ))}
 
       <div>

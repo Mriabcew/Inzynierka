@@ -38,6 +38,7 @@ export default function SignUp() {
   };
 
   return (
+    <div>
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -116,9 +117,6 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Masz już konto, zaloguj się
-                </Link>
               </Grid>
             </Grid>
           </Box>
@@ -126,5 +124,6 @@ export default function SignUp() {
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
+    </div>
   );
 }

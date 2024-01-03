@@ -79,6 +79,69 @@ function LogoBarComponent() {
           {isAuthenticated ? (
             <>
               <h2>Witaj użytkowniku!</h2>
+                <Button variant="outlined" sx={{
+                  background: '#282F44',
+                  height: '4em',
+                  display: 'flex', 
+                  alignItems: 'center',
+                  justifyContent:'center',
+                  borderRadius: '5px',
+                  margin: '0.5em',
+                  color:'white',
+                    "& label.Mui-focused": {
+                    color: '#282F44', 
+                },
+                '&:hover': {
+                  background: '#E6AF2E', 
+                },
+              }} 
+              href='/add'>
+                Wystaw przedmiot
+                
+              </Button>
+
+              <Button variant="outlined" sx={{
+                  background: '#282F44',
+                  height: '4em',
+                  display: 'flex', 
+                  alignItems: 'center',
+                  justifyContent:'center',
+                  borderRadius: '5px',
+                  margin: '0.5em',
+                  color:'white',
+                    "& label.Mui-focused": {
+                    color: '#282F44', 
+                },
+                '&:hover': {
+                  background: '#E6AF2E', 
+                },
+              }} 
+              href='/myAuctions'>
+               Moje przedmioty
+                
+              </Button>
+
+              <Button variant="outlined" sx={{
+                  background: '#282F44',
+                  height: '4em',
+                  display: 'flex', 
+                  alignItems: 'center',
+                  justifyContent:'center',
+                  borderRadius: '5px',
+                  margin: '0.5em',
+                  color:'white',
+                    "& label.Mui-focused": {
+                    color: '#282F44', 
+                },
+                '&:hover': {
+                  background: '#E6AF2E', 
+                },
+              }} 
+              href='/settings'>
+                Ustawienia konta
+                
+              </Button>
+
               <Button variant="outlined" onClick={handleLogout} sx={{
                 background: '#282F44',
                 height: '4em',
@@ -90,6 +153,9 @@ function LogoBarComponent() {
                 color:'white',
                 "& label.Mui-focused": {
                   color: '#282F44', 
+                },
+                '&:hover': {
+                  background: '#E6AF2E', 
                 },
                 }} >
                 Wyloguj się

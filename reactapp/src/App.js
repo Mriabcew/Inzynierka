@@ -7,6 +7,9 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import AddItemPage from './pages/AddItemPage';
+import SettingsPage from './pages/SettingsPage';
+import MyAuctionsPage from './pages/MyAuctionsPage';
+import ItemPage from './pages/ItemPage';
 
 
 
@@ -24,6 +27,9 @@ export default class App extends Component {
                 <Route path="/" element={<StartPage/>}/>
                 <Route path='/register' element={<RegisterPage/>}/>
                 <Route path='/add' element={<AddItemPage/>}/>
+                <Route path='/settings' element={<SettingsPage/>}/>
+                <Route path='/myAuctions' element={<MyAuctionsPage/>}/>
+                <Route path="/Item/:itemId" element={<ItemPage/>} />
             </Routes>
        </BrowserRouter>
       )
