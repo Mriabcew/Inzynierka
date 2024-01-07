@@ -21,7 +21,7 @@ namespace App.DAL.Repositories
            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteAuctionById(Auction auction)
+        public async Task<bool> DeleteAuction(Auction auction)
         {
             var auctionToDelete = await _context.Auctions.FindAsync(auction.Id);
             if(auctionToDelete == null) 
@@ -35,12 +35,35 @@ namespace App.DAL.Repositories
 
         }
 
+        public async Task<List<Auction>> GetAllAuctionsAsync()
+        {
+            var auctions = await _context.Auctions.ToListAsync();
+            return auctions;
+        }
+
         public async Task<Auction> GetAuctionByIdAsync(Guid id)
         {
             return await _context.Auctions.FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<Auction> UpdateAuctionById(Auction auction)
+        public async Task<List<Auction>> GetAuctionsByCategory(Guid categoryId)
+        {
+            var auctionList = new List<Auction>();
+            auctionList = await _context.Auctions.Where(a => a.CategoryId == categoryId).ToListAsync();
+
+            return auctionList;
+        }
+
+        public async Task<List<Auction>> GetAuctionsByUserIdAsync(Guid userID)
+        {
+            var user = await _context.Users
+                                     .Include(u => u.Auctions)
+                                     .FirstOrDefaultAsync(u => u.Id == userID);
+
+            return user?.Auctions ?? new List<Auction>();
+        }
+
+        public async Task<Auction> UpdateAuction(Auction auction)
         {
             var auctionToUpdate = await _context.Auctions.FindAsync(auction.Id);
             if(auctionToUpdate == null)

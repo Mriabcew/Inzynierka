@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -28,13 +29,32 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [registerInformation, setRegisterInformation] = React.useState(null);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const registrationData = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      username: data.get('username'),
+    };
+
+   
+    try {
+      // Wykonaj zapytanie POST do endpointu rejestracji na backendzie
+      const response = await axios.post('https://localhost:7211/Security/Register', registrationData);
+
+      // Obsłuż odpowiedź z serwera (możesz dodać logikę obsługi sukcesu)
+      console.log('Rejestracja udana:', response.data);
+      setRegisterInformation('Rejestracja udana')
+    } catch (error) {
+      // Obsłuż błędy (możesz dodać logikę obsługi błędów)
+      console.error('Błąd podczas rejestracji:', error);
+      setRegisterInformation('Błąd podczas rejestracji: ', error)
+    }
   };
 
   return (
@@ -56,6 +76,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Rejestracja
           </Typography>
+          {registerInformation && <div style={{ color: 'black',padding:'1em' }}>{registerInformation}</div>}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -93,6 +114,17 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  name="username"
+                  label="Nazwa Użytkownika"
+                  type="text"
+                  id="username"
+                  autoComplete="user"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   name="password"
                   label="Hasło"
                   type="password"
@@ -103,7 +135,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="Chcę otrzymywać inspiracje, promocje marketingowe i aktualizacje za pośrednictwem poczty elektronicznej."
+                  label="Akceptuje regulamin strony oraz potwierdzam, że ukończyłem 18 lat."
                 />
               </Grid>
             </Grid>

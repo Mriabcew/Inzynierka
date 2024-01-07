@@ -1,13 +1,6 @@
 ﻿using App.DAL.Interfaces;
 using App.Domain.Models;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.DAL.Repositories
 {
@@ -43,7 +36,7 @@ namespace App.DAL.Repositories
             {
                 throw new ArgumentException("User with given id does not exist");
             }
-
+            userToUpdate.UserName = user.UserName;
             userToUpdate.FirstName = user.FirstName;
             userToUpdate.LastName = user.LastName;
             userToUpdate.Email = user.Email;

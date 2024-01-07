@@ -1,9 +1,14 @@
 import React from 'react'
 import AddItemFormComponent from '../components/AddItemFormComponent'
+import LogoBarComponent from '../components/LogoBarComponent'
 
 function AddItemPage() {
+
   return (
-    <div><AddItemFormComponent/></div>
+    <div>
+      <LogoBarComponent/>
+      <AddItemFormComponent/>
+      </div>
   )
 }
 

@@ -16,6 +16,8 @@ namespace App.DAL
 
         public DbSet<AuctionPhotos> AuctionPhotos { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }
 }

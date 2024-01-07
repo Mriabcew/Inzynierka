@@ -4,6 +4,7 @@ import LogoBarComponent from '../components/LogoBarComponent';
 import ChangeEmailModal from '../components/Modals/ChangeEmailModal';
 import ChangeUserInformations from '../components/Modals/ChangeUserInformationsModal';
 import DeleteAccountModal from '../components/Modals/DeleteAccountModal';
+import ChangePasswodModal from '../components/Modals/ChangePasswordModal';
 
 const SettingsPage = () => {
   const [userData, setUserData] = useState({
@@ -36,11 +37,22 @@ const SettingsPage = () => {
   };
 
   return (
-    <div style={{ height: '100%' }}>
+    <div >
       <LogoBarComponent />
-    <ChangeEmailModal/>
-    <ChangeUserInformations/>
-    <DeleteAccountModal/>
+      <div style={{height: 'calc(100vh - 111px)'}}>
+        <div style={{
+          display:'flex',
+          gap:'1em',
+          flexDirection:'column',
+          margin:'1em',
+          alignItems:'center'
+          }}>
+          <ChangeEmailModal />
+          <ChangeUserInformations />
+          <ChangePasswodModal/>
+          <DeleteAccountModal />
+        </div>
+      </div>
     </div>
   );
 };

@@ -2,77 +2,76 @@ import React, { useState } from "react";
 import axios from "axios";
 import './Modals.css';
 
-
 function ChangeUserInformations() {
     const [modal, setModal] = useState(false);
-    const [Message, setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     const toggleModal = () => {
         setModal(!modal);
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const id = localStorage.id;
+        const id = localStorage.userId;
         const formData = new FormData(e.target);
-        const name = formData.get("Name");
-        const surname = formData.get("Surname");
-        const gender = formData.get("Gender");
+        const firstName = formData.get("FirstName");
+        const lastName = formData.get("Lastname");
+        const phoneNumber = formData.get("phonenumber");
+        const address = formData.get("address");
         const password = formData.get("passwd");
 
         const payload = {
             id,
-            name,
-            surname,
-            gender,
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
             password
         };
 
         try {
-
-            axios.post('https://localhost:7027/Security/UserInfoSet', payload)
-            .then((response) => {
-              setMessage(response.data);
-            });
-        }
-        catch(error){
-          console.error(error);
-          setMessage("Wystąpił błąd podczas zmiany zdjecia: " + error.message);
+            const response = await axios.post('https://localhost:7211/Security/UserInfoSet', payload);
+            setMessage(response.data);
+        } catch (error) {
+            console.error(error);
+            setMessage("Wystąpił błąd podczas zmiany danych użytkownika: " + error.message);
         }
     };
 
     return (
         <>
             <button onClick={toggleModal} className="btn-modal">
-                Change user informations
+                Zmień dane użytkownika
             </button>
 
             {modal && (
                 <div className="modal">
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
+                        <h2>Zmień dane użytkownika</h2>
                         <form className="modal-form" onSubmit={handleSubmit}>
-                            <input name="Name" type="text" placeholder="Set name"/>
-                            <input name="Surname" type="text" placeholder="Set surname"/>
-                            <div className="gender-buttons">
-                                <input name="Gender" type="radio" value="Man"/>
-                                <label className="gender-label" for="Gender">Man</label>
-                                <input name="Gender" type="radio" value="Woman"/>
-                                <label className="gender-label" for="Gender">Woman</label>
-                                <input name="Gender" type="radio" value="Not Defined"/>
-                                <label className="gender-label" for="Gender">Not Defined</label>
-                            </div>
-                            <input name="passwd" type="password" placeholder="Confirm with your password"/>
-                            <button className="modal-submit" type="submit">Submit</button>
+                            <input name="FirstName" type="text" placeholder="Imię" />
+                            <input name="Lastname" type="text" placeholder="Nazwisko" />
+                            <input
+                                name="phonenumber"
+                                type="text"
+                                placeholder="Numer telefonu"
+                                pattern="[0-9]{9}"
+                                title="Numer telefonu powinien składać się z 9 cyfr"
+                                maxLength="9"
+                            />
+                            <input name="address" type="text" placeholder="Adres" />
+                            <h2>Potwierdz hasłem</h2>
+                            <input name="passwd" type="password" placeholder="Potwierdź hasłem" />
+                            <button className="modal-submit" type="submit">Zastosuj</button>
                         </form>
-                        {Message && <div className="message">{Message}</div>}
+                        {message && <div className="message" style={{padding:'1em'}}>{message}</div>}
                     </div>
-                    
                 </div>
             )}
 
         </>
     );
 }
+
 export default ChangeUserInformations;

@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 
 namespace App.DAL.Interfaces
 {
-    internal interface IAuctionsRepository
+    public interface IAuctionsRepository
     {
         Task<Auction> GetAuctionByIdAsync(Guid id);
 
-        Task<bool> DeleteAuctionById(Auction auction);
+        Task<bool> DeleteAuction(Auction auction);
 
-        Task<Auction> UpdateAuctionById(Auction auction);
+        Task<Auction> UpdateAuction(Auction auction);
 
         Task AddAuctionAsync(Auction auction);
+
+        Task<List<Auction>> GetAllAuctionsAsync();
+
+        Task<List<Auction>> GetAuctionsByCategory(Guid categoryId);
+        Task<List<Auction>> GetAuctionsByUserIdAsync(Guid userID);
     }
 }

@@ -14,7 +14,14 @@ namespace App.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [Required]
-        public string Path { get; set; }
+        public string source { get; set; }
+
+        [Required]
+        public string Extension {  get; set; }
+
+        [Required]
+        [ForeignKey("AuctionId")]
+        public Guid AuctionId { get; set; }
         
         
     }

@@ -6,11 +6,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace App.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class INIT : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -40,16 +52,24 @@ namespace App.DAL.Migrations
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Auctions", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Auctions_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Auctions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,7 +78,7 @@ namespace App.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Path = table.Column<string>(type: "text", nullable: false),
-                    AuctionId = table.Column<Guid>(type: "uuid", nullable: true)
+                    AuctionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,13 +87,19 @@ namespace App.DAL.Migrations
                         name: "FK_AuctionPhotos_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuctionPhotos_AuctionId",
                 table: "AuctionPhotos",
                 column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Auctions_CategoryId",
+                table: "Auctions",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Auctions_UserId",
@@ -89,6 +115,9 @@ namespace App.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Auctions");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Users");

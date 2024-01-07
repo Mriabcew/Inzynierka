@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Models
 {
-    internal class AuthenticationResponse
+    public class AuthenticationResponse
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public Guid Id { get; set; }
         public string Email { get; set; }
+        public string Username { get; set; }
         public string Token { get; set; }
     }
 }

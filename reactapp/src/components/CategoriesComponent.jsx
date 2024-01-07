@@ -10,7 +10,7 @@ const CategoriesComponent = ({ categories }) => {
         <ul className='category-list'>
           {categories.map((category) => (
             <li key={category.id}>
-              <Link to={`/kategoria/${category.name}`}>{category.name}</Link>
+              <Link to={`/kategoria/${category.id}`}>{category.name}</Link>
             </li>
           ))}
         </ul>

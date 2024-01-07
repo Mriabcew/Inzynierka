@@ -23,6 +23,12 @@ namespace App.Domain.Models
         public DateTime CreatedDate { get; set;}
         [Required]
         public OfferStatus Status { get; set; }
+        [Required]
+        [ForeignKey("CategoryId")]
+        public Guid CategoryId { get; set; }
+        [Required]
+        [ForeignKey("UserId")]
+        public Guid UserId { get; set; }
         public List<AuctionPhotos> AuctionPhotos { get; set; }
     }
 }

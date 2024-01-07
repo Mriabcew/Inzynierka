@@ -3,16 +3,16 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchbarComponent() {
+function SearchbarComponent({onSearch}) {
 
   const [inputText, setInputText] = useState("");
   let inputHandler = (e) => {
     //convert input text to lower case
-    setInputText(e.target.value);
+    setInputText(e.target.value.toLowerCase());
   }
 
   const handleSearch = () => {
-    // Tutaj możesz umieścić logikę obsługi wyszukiwania
+    onSearch(inputText); // Przekazanie wprowadzonego hasła do funkcji onSearch
     console.log('Wyszukiwane hasło:', inputText);
   };
 
