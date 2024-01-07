@@ -8,7 +8,7 @@ function ProductDetails({ product }) {
   return (
     <div className="product-details" style={{display:'flex'}}>
         <div style={{display: 'flex'}}>
-            <Gallery/>
+            <Gallery images={product.images}/>
       </div>
       <div style={{padding: '1em'}}>
       <h3>Nazwa: {product.name}</h3>

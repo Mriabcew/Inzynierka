@@ -14,7 +14,7 @@ namespace App.DAL
 
         public DbSet<Auction> Auctions { get; set; }
 
-        public DbSet<AuctionPhotos> AuctionPhotos { get; set; }
+        public DbSet<Image> AuctionPhotos { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 

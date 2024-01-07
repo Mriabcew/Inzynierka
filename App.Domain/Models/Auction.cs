@@ -29,6 +29,6 @@ namespace App.Domain.Models
         [Required]
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
-        public List<AuctionPhotos> AuctionPhotos { get; set; }
+        public List<Image> AuctionPhotos { get; set; }
     }
 }

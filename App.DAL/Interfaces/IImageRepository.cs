@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace App.DAL.Interfaces
 {
-    public interface IAuctionPhotosRepository
+    public interface IImageRepository
     {
-        public Task<List<AuctionPhotos>> GetAllPhotosByAuctionId(Guid auctionId);
+        public Task<List<Image>> GetAllPhotosByAuctionId(Guid auctionId);
 
-        public Task<bool> AddNewPhoto(Auction auction, string path);
+        public Task<bool> AddNewPhoto(Image image);
 
     }
 }

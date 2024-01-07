@@ -28,6 +28,7 @@ const SellerInfo = ({ userId }) => {
 
   return (
     <div style={{
+      marginBottom:'5em',
       border: '1px solid #ddd',
       borderTop: 'none',
       borderRadius: '0 0 1em 1em',

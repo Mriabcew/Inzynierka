@@ -22,11 +22,13 @@ internal class Program
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IAuctionService, AuctionService>();
         builder.Services.AddScoped<IImageService, ImageService>();
+        
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticataionService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IAuctionsRepository, AuctionsRepository>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<IImageRepository, ImageRepository>();
         builder.Services.Configure<FormOptions>(options =>
         {
             options.ValueLengthLimit = int.MaxValue;

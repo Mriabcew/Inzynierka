@@ -51,26 +51,50 @@ function AddItemFormComponent() {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
+  const convertImageToBase64 = async (imageFile) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('price', price);
-    formData.append('condition', condition);
-    formData.append('categoryId', categoryId);
-    formData.append('userId', userId);
+      reader.onload = () => {
+      const base64String = reader.result.split(',')[1]; // Usuń nagłówek "data:image/jpeg;base64,"
+      console.log(base64String)
+      resolve(base64String);
+    };
+      reader.onerror = (error) => {
+        reject(error);
+      };
 
-    images.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
+      reader.readAsDataURL(imageFile);
     });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const imagePromises = images.map(async (image) => ({
+      name: image.name,
+      base64: await convertImageToBase64(image),
+      extension: 'jpg',
+    }));
+  
+    const auctionModel = {
+      name,
+      description,
+      price,
+      categoryId,
+      userId,
+      images: await Promise.all(imagePromises),
+    };
+  
     try {
       const response = await fetch('https://localhost:7211/Auction/AddNew', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(auctionModel),
       });
-
+  
       if (response.ok) {
         console.log('Item added successfully!');
       } else {
@@ -80,9 +104,7 @@ function AddItemFormComponent() {
       console.error('An unexpected error occurred:', error.message);
     }
   };
-
   
-
   return (
     <div style={{ height: 'calc(100vh - 115px)' }}>
       <form

@@ -8,9 +8,10 @@ namespace App.DTO.DTOModels
 {
     public class ImageDTO
     {
+        public Guid AuctionId {  get; set; }
         public string Name { get; set; }
         public string base64 { get; set; }
-
-        public string extension { get; set; }
+        public string Extension { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -1,12 +1,13 @@
 import React from 'react';
 import './ItemStyle.css';
-import itemImage from '../assets/a.png';
 
-const ItemComponent = ({ id, name, price, description }) => {
+const ItemComponent = ({ id, name, price, description, images }) => {
+  const itemImage = images && images.length > 0 ? images[0].base64 : null;
+
   return (
     <div className="product">
       <div>
-        <img src={itemImage} alt="Product Image" width={300} height={300} />
+        {itemImage && <img src={itemImage} alt="Product Image" width={300} height={300} />}
       </div>
       <div className="text-container">
         <div>

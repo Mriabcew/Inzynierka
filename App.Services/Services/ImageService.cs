@@ -1,6 +1,9 @@
-﻿using App.DTO.DTOModels;
+﻿using App.Common.Converters;
+using App.DAL.Interfaces;
+using App.DTO.DTOModels;
 using App.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,12 +17,14 @@ namespace App.Services.Services
     {
         private readonly string _imageUploadPath;
         private readonly IAuctionService _auctionService;
+        private readonly IImageRepository _imageRepository;
 
-        public ImageService(IConfiguration configuration, IAuctionService auctionService)
+        public ImageService(IConfiguration configuration, IAuctionService auctionService,IImageRepository imageRepository)
         {
           
             _imageUploadPath = configuration.GetValue<string>("ImageUploadPath");
             _auctionService = auctionService;
+            _imageRepository = imageRepository;
         
         }
 
@@ -36,28 +41,28 @@ namespace App.Services.Services
             {
                 foreach (var image in auction.Images)
                 {
-                    //if (string.IsNullOrEmpty(image.base64))
-                    //{
-                    //    // Dodaj odpowiednią obsługę błędu, np. rzucenie wyjątku lub wypisanie informacji do logów
-                    //    Console.WriteLine("Błąd: DataURL w obrazie jest puste.");
-                    //    continue;  // Opcjonalnie, możesz przejść do następnego obrazu
-                    //}
+                    try
+                    {
+                        // Konwertuj do bajtów bez dodawania nagłówka
+                        byte[] imageBytes = Convert.FromBase64String(image.base64);
 
-                    //// Konwersja ciągu base64 na bajty
-                    //byte[] imageBytes = Convert.FromBase64String(image.DataURL.Split(',')[1]);
+                        // Generuj unikalną nazwę pliku
+                        var fileName = Guid.NewGuid().ToString() + ".jpg";
+                        var filePath = Path.Combine(_imageUploadPath, fileName);
 
-                    //// Generuj unikalną nazwę pliku (możesz dostosować do swoich potrzeb)
-                    //var fileName = Guid.NewGuid().ToString() + ".png"; // Zakładam, że obrazy są w formacie PNG
-                    //var filePath = Path.Combine(_imageUploadPath, fileName);
+                        // Zapisz bajty obrazu na dysku
+                        await File.WriteAllBytesAsync(filePath, imageBytes);
 
-                    //// Zapisz bajty obrazu na dysku
-                    //await File.WriteAllBytesAsync(filePath, imageBytes);
-
-                    //// Tutaj możesz dodać logikę zapisu informacji o obrazie do bazy danych, jeśli to konieczne
-                    //_auctionService.UpdateImage(auction);
-
-                    //Console.WriteLine($"Obraz zapisano pomyślnie: {fileName}");
+                        // Tutaj możesz dodać logikę zapisu informacji o obrazie do bazy danych, jeśli to konieczne
+                        await _imageRepository.AddNewPhoto(image.ToEntity());
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Błąd podczas przetwarzania obrazu: {ex.Message}");
+                        // Dodaj dodatkową logikę obsługi błędu, jeśli to konieczne
+                    }
                 }
+
             }
             catch (Exception ex)
             {

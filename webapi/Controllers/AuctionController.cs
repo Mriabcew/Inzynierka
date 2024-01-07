@@ -1,4 +1,5 @@
-﻿using App.DTO.DTOModels;
+﻿using App.DAL.Interfaces;
+using App.DTO.DTOModels;
 using App.Services.Interfaces;
 using App.Services.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,10 @@ namespace webapi.Controllers
         private readonly IAuctionService _auctionService;
         private readonly IImageService _imageService;
 
-        public AuctionController(IAuctionService auctionService, IConfiguration configuration)
+        public AuctionController(IAuctionService auctionService, IConfiguration configuration,IImageRepository imageRepository)
         {
             _auctionService = auctionService;
-            _imageService = new ImageService(configuration,auctionService);
+            _imageService = new ImageService(configuration,auctionService,imageRepository);
         }
 
         [HttpGet]
@@ -39,8 +40,19 @@ namespace webapi.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
         public async Task<IActionResult> AddNew([FromBody] AuctionDTO auctionModel)
         {
+            if (auctionModel.Id == Guid.Empty)
+            {
+                auctionModel.Id = Guid.NewGuid();
+            }
+
+            foreach(var image in auctionModel.Images)
+            {
+                image.AuctionId = auctionModel.Id;
+                image.Id = Guid.NewGuid();
+            }
+
             await _auctionService.AddNew(auctionModel);
-           // await _imageService.SaveImageAsync(auctionModel);
+            await _imageService.SaveImageAsync(auctionModel);
 
             return Ok(auctionModel);
         }

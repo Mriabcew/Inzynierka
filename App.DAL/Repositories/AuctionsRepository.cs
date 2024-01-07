@@ -37,30 +37,36 @@ namespace App.DAL.Repositories
 
         public async Task<List<Auction>> GetAllAuctionsAsync()
         {
-            var auctions = await _context.Auctions.ToListAsync();
+            var auctions = await _context.Auctions
+            .Include(a => a.AuctionPhotos) // Dodaj to, aby załadować powiązane zdjęcia
+            .ToListAsync();
             return auctions;
         }
 
         public async Task<Auction> GetAuctionByIdAsync(Guid id)
         {
-            return await _context.Auctions.FirstOrDefaultAsync(a => a.Id == id);
+            return await _context.Auctions
+       .Include(a => a.AuctionPhotos) // Dodaj to, aby załadować powiązane zdjęcia
+       .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<List<Auction>> GetAuctionsByCategory(Guid categoryId)
         {
             var auctionList = new List<Auction>();
-            auctionList = await _context.Auctions.Where(a => a.CategoryId == categoryId).ToListAsync();
+            auctionList = await _context.Auctions.Include(a => a.AuctionPhotos).Where(a => a.CategoryId == categoryId).ToListAsync();
 
             return auctionList;
         }
 
         public async Task<List<Auction>> GetAuctionsByUserIdAsync(Guid userID)
         {
-            var user = await _context.Users
-                                     .Include(u => u.Auctions)
-                                     .FirstOrDefaultAsync(u => u.Id == userID);
+            var auctions = await _context.Auctions
+        .Include(a => a.AuctionPhotos) // Załaduj powiązane zdjęcia
+        .Where(a => a.UserId == userID)
+        .ToListAsync();
 
-            return user?.Auctions ?? new List<Auction>();
+            return auctions ?? new List<Auction>();
+
         }
 
         public async Task<Auction> UpdateAuction(Auction auction)

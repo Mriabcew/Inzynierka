@@ -3,6 +3,7 @@ using System;
 using App.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace App.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240107161256_FixPhoto2")]
+    partial class FixPhoto2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,6 +61,30 @@ namespace App.DAL.Migrations
                     b.ToTable("Auctions");
                 });
 
+            modelBuilder.Entity("App.Domain.Models.AuctionPhotos", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuctionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
+
+                    b.ToTable("AuctionPhotos");
+                });
+
             modelBuilder.Entity("App.Domain.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -71,34 +98,6 @@ namespace App.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("App.Domain.Models.Image", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AuctionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Extension")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuctionId");
-
-                    b.ToTable("AuctionPhotos");
                 });
 
             modelBuilder.Entity("App.Domain.Models.User", b =>
@@ -153,7 +152,7 @@ namespace App.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("App.Domain.Models.Image", b =>
+            modelBuilder.Entity("App.Domain.Models.AuctionPhotos", b =>
                 {
                     b.HasOne("App.Domain.Models.Auction", null)
                         .WithMany("AuctionPhotos")

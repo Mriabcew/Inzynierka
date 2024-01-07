@@ -8,13 +8,17 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Models
 {
-    public class AuctionPhotos
+    public class Image
     {
+
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        public string Name { get; set; }
+
         [Required]
-        public string source { get; set; }
+        public string Source { get; set; }
 
         [Required]
         public string Extension {  get; set; }

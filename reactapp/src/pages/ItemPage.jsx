@@ -24,7 +24,7 @@ function ItemPage() {
   }, [itemId]);
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div>
       <LogoBarComponent />
       <div className="item-page" style={{ margin: '0 5em 0 5em' }}>
         {product ? (
