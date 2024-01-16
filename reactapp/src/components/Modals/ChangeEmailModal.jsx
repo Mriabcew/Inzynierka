@@ -49,7 +49,7 @@ const ChangeEmailModal = () => {
                 <input name="OldEmail" type="text" placeholder="Stary Email" />
                 <input name="NewEmail" type="text" placeholder="Nowy Email" />
                 <input name="passwd" type="password" placeholder="Potwierdź hasłem" />
-                <button className="modal-submit" type="submit">Submit</button>
+                <button className="modal-submit" type="submit">Zmień</button>
               </form>
             </div>
           </div>

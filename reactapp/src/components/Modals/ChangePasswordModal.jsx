@@ -47,7 +47,7 @@ const ChangePasswordModal = () => {
                 <input name="OldPassword" type="password" placeholder="Stare hasło" />
                 <input name="NewPassword" type="password" placeholder="Nowe hasło" />
                 <input name="ConfirmNewPassword" type="password" placeholder="Powtórz nowe hasło" />
-                <button className="modal-submit" type="submit">Submit</button>
+                <button className="modal-submit" type="submit">Zmień</button>
               </form>
             </div>
           </div>

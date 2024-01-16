@@ -17,7 +17,7 @@ namespace App.Common.Converters
               AuctionId = imageDTO.AuctionId,
               Extension = imageDTO.Extension,
               Id = imageDTO.Id,
-              Source = "data:image/jpeg;base64," + imageDTO.base64,
+              Source = imageDTO.base64,
               Name = imageDTO.Name,
             };
         }

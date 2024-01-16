@@ -18,7 +18,7 @@ function DeleteAccountModal() {
 
         const payload = {
             id,
-            email: '', // Puste, ponieważ nie używamy ich w zapytaniu
+            email: '',
             username: '',
             firstName: '',
             lastName: '',

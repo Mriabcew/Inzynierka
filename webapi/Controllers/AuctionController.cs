@@ -3,6 +3,7 @@ using App.DTO.DTOModels;
 using App.Services.Interfaces;
 using App.Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace webapi.Controllers
 {
@@ -92,6 +93,38 @@ namespace webapi.Controllers
             }
             return Ok(auction);
 
+        }
+
+        [HttpPost]
+        [Route("Edit/{auctionId}")]
+        public async Task<IActionResult> UpdateAuction([FromBody] AuctionDTO auctionModel)
+        {
+            var auction = await _auctionService.GetById(auctionModel.Id);
+            if (auction == null)
+            {
+                return NotFound();
+
+            }
+
+            await _auctionService.Update(auctionModel);
+            await _imageService.UpdateImages(auctionModel);
+
+            return Ok("Auction updated");
+        }
+
+        [HttpDelete]
+        [Route("Delete/{Id}")]
+        public async Task<IActionResult> DeleteAuction(Guid Id)
+        {
+            var auction = await _auctionService.GetById(Id);
+            if(auction == null)
+            {
+                return NotFound(); 
+            }
+            await _auctionService.Delete(auction);
+            await _imageService.DeleteImages(auction);
+            return Ok("Auction deleted");
+            
         }
 
 

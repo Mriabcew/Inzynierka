@@ -17,10 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.DTO", "App.DTO\App.DTO.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Services", "App.Services\App.Services.csproj", "{3394B30A-8F45-41BD-8C4C-A5DDA96FE0E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.SQLQueryEngine", "App.SQLQueryEngine\App.SQLQueryEngine.csproj", "{30A6F90D-C778-4126-99B8-3989E66AA93A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.SQLQuerryClient", "App.SQLQuerryClient\App.SQLQuerryClient.csproj", "{70F0BB9C-F017-4B38-BFD7-AAE99797ECF9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,14 +53,6 @@ Global
 		{3394B30A-8F45-41BD-8C4C-A5DDA96FE0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3394B30A-8F45-41BD-8C4C-A5DDA96FE0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3394B30A-8F45-41BD-8C4C-A5DDA96FE0E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30A6F90D-C778-4126-99B8-3989E66AA93A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30A6F90D-C778-4126-99B8-3989E66AA93A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30A6F90D-C778-4126-99B8-3989E66AA93A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30A6F90D-C778-4126-99B8-3989E66AA93A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70F0BB9C-F017-4B38-BFD7-AAE99797ECF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70F0BB9C-F017-4B38-BFD7-AAE99797ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70F0BB9C-F017-4B38-BFD7-AAE99797ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70F0BB9C-F017-4B38-BFD7-AAE99797ECF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

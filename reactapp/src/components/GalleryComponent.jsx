@@ -16,8 +16,8 @@ function GalleryComponent({ images }) {
   };
 
   const imageStyles = {
-    maxWidth: '500px', // Dostosuj maksymalną szerokość głównego obrazu
-    maxHeight: '500px', // Dostosuj maksymalną wysokość głównego obrazu
+    maxWidth: '500px',
+    maxHeight: '500px', 
   };
 
   const thumbnailStyles = {

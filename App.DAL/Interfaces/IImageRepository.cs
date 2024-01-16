@@ -13,6 +13,6 @@ namespace App.DAL.Interfaces
         public Task<List<Image>> GetAllPhotosByAuctionId(Guid auctionId);
 
         public Task<bool> AddNewPhoto(Image image);
-
+        public Task DeleteImageAsync(Image image);
     }
 }

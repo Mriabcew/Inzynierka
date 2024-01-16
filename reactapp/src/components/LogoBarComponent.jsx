@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from 'react';
-import '../assets/logo512.png';
 import SearchbarComponent from './SearchbarComponent';
 import { IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -9,28 +8,26 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-function LogoBarComponent({ onSearchResults }) {
+
+function LogoBarComponent() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginError, setLoginError] = useState(null);
-
+  const matches = useMediaQuery('(max-width:768px)');
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    // Sprawdź, czy w localStorage są dane logowania (token i userId)
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
     if (token && userId) {
-      // Ustaw stan autentykacji na true, jeśli dane są dostępne
       setIsAuthenticated(true);
     }
-  }, []); // Pusta tablica zależności sprawi, że useEffect wykona się tylko raz po zamontowaniu komponentu
+  }, []);
 
   const handleSearch = (inputText) => {
-    console.log('Wyszukiwane hasło:', inputText);
-    onSearchResults();
   };
 
   const handleIconClick = (event) => {
@@ -60,10 +57,8 @@ function LogoBarComponent({ onSearchResults }) {
       console.error('Błąd podczas logowania:', error);
   
       if (error.response && error.response.status === 400 && error.response.data === 'No user found with the given email address or username') {
-        // Nie znaleziono użytkownika
         setLoginError('Nieprawidłowy login lub hasło.');
       } else {
-        // Inny rodzaj błędu
         setLoginError('Wystąpił błąd podczas logowania.');
       }
     }
@@ -77,32 +72,37 @@ function LogoBarComponent({ onSearchResults }) {
 
   return (
     <div style={styles.logoBar}>
-      <Link to={'/'} style={styles.logoLink}>
-        <div style={styles.logoWithText}>
-          <img className="Logo" src="logo512.png" alt="Logo" style={styles.logo} />
-          <div style={styles.text}></div>
-        </div>
-      </Link>
-      <div style={styles.searchBar}>
-        <SearchbarComponent onSearch={handleSearch} />
+   <Link to={'/'} style={styles.logoLink}>
+      <div style={styles.logoWithText}>
+      <img 
+          className="Logo" 
+          src={process.env.PUBLIC_URL + '/logo512.png'} 
+          alt="Logo" 
+          style={styles.logo} 
+        />
+        <div style={styles.text}></div>
       </div>
-      <div style={styles.loginButton}>
-        <IconButton aria-label="delete" size="large">
-          <AccountCircleIcon fontSize="large" sx={{ color: 'white' }} onClick={handleIconClick} />
-        </IconButton>
-        <Popover
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handlePopoverClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
+    </Link>
+    <div style={styles.searchBar}>
+      <SearchbarComponent onSearch={handleSearch} />
+    </div>
+    <div style={styles.loginButton}>
+      <IconButton aria-label="delete" size="large">
+        <AccountCircleIcon fontSize="large" sx={{ color: 'white' }} onClick={handleIconClick} />
+      </IconButton>
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handlePopoverClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
           <Box
             sx={{
               p: 2,
@@ -112,6 +112,7 @@ function LogoBarComponent({ onSearchResults }) {
               padding: '1em',
               flexDirection: 'column',
               justifyContent: 'center',
+              
             }}
           >
             {isAuthenticated ? (
@@ -308,7 +309,6 @@ const styles = {
     marginRight: '10px',
   },
   text: {
-    color: 'white',
     fontSize: '32px',
     fontWeight: 'bold',
     color: '#E6AF2E',
@@ -334,6 +334,23 @@ const styles = {
   logoLink: {
     width: '20%',
   },
+  '@media (max-width: 768px)': {
+    logoBar: {
+      flexDirection: 'column',
+    searchBar: {
+      width: '100%',
+      marginTop: '1em',
+    },
+    loginButton: {
+      width: '100%', 
+      marginTop: '1em',
+      justifyContent: 'center',
+    },
+    logoWithText: {
+      width: '100%',
+      justifyContent: 'center',
+    },
+  },},
 };
 
 export default LogoBarComponent;

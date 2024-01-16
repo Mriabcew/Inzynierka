@@ -76,10 +76,5 @@ namespace App.Services.Services
            var aucitonDTO = await _auctionRepository.UpdateAuction(auctionModel.ToEntity());
            return aucitonDTO.ToDTO();
         }
-
-        public async Task<bool> UpdateImage(AuctionDTO auctionModel)
-        {
-            return false;
-        }
     }
 }

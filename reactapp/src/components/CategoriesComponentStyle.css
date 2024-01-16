@@ -3,17 +3,37 @@
     margin: 2em
 }
 .category-list {
-    
     list-style-type: none;
     list-style: none;
     display: flex;
-    padding: 0; /* Dodaj to, aby usunąć domyślne wewnętrzne marginesy listy */   
+    padding: 0;
     justify-content: space-between;
 }
 
 .category-list a {
-    margin: 0 1em; /* Usunięcie marginesu na lewo i prawo */
+    margin: 0 1em; 
     color: black;
     text-decoration: none;
-    display: block; /* Ustawienie a na blok, aby mogło zajmować całą dostępną szerokość w li */
+    display: block; 
+}
+
+@media only screen and (max-width: 768px) {
+    .categories-component{
+        border-bottom: 1px solid black;
+        margin: 0.25em
+    }
+
+    .category-list {
+        list-style-type: none;
+        list-style: none;
+        display: flex;
+        overflow:scroll;
+        
+  }
+  .category-list a {
+    margin: 0 1em;
+    color: black;
+    text-decoration: none;
+    display: block;
+}
 }

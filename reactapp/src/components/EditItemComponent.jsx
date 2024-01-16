@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-function AddItemFormComponent() {
+function EditItemFormComponent() {
+  const { itemId } = useParams();
   const [name, setItemName] = useState('');
   const [description, setItemDescription] = useState('');
   const [price, setItemPrice] = useState('');
@@ -8,19 +10,30 @@ function AddItemFormComponent() {
   const [categoryId, setCategory] = useState('');
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [userId, setUserId] = useState('');
 
   useEffect(() => {
-    // Pobierz listę kategorii z endpointu
     fetch('https://localhost:7211/Category/GetAll')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
 
-    // Pobierz userId z local storage
     const storedUserId = localStorage.getItem('userId');
-    setUserId(storedUserId || ''); // Ustaw userId lub pusty ciąg znaków, jeśli nie ma takiego klucza w local storage
-  }, []);
+    setUserId(storedUserId || '');
+
+    fetch(`https://localhost:7211/Auction/${itemId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setItemName(data.name);
+        setItemDescription(data.description);
+        setItemPrice(data.price);
+        setItemCondition(data.condition);
+        setCategory(data.categoryId);
+        setExistingImages(data.images);
+      })
+      .catch((error) => console.error('Error fetching auction data for edit:', error));
+  }, [itemId]);
 
   const handleItemNameChange = (e) => {
     setItemName(e.target.value);
@@ -51,14 +64,18 @@ function AddItemFormComponent() {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
+  const handleRemoveExistingImage = (index) => {
+    setExistingImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
   const convertImageToBase64 = async (imageFile) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
       reader.onload = () => {
-      const base64String = reader.result;
-      resolve(base64String);
-    };
+        const base64String = reader.result;
+        resolve(base64String);
+      };
       reader.onerror = (error) => {
         reject(error);
       };
@@ -69,46 +86,46 @@ function AddItemFormComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const imagePromises = images.map(async (image) => ({
+
+    const newImagePromises = images.map(async (image) => ({
       name: image.name,
       base64: await convertImageToBase64(image),
       extension: 'jpg',
     }));
-  
+
+    const combinedImages = [
+      ...existingImages,
+      ...(await Promise.all(newImagePromises)),
+    ];
+
     const auctionModel = {
+      id: itemId,
       name,
       description,
       price,
       categoryId,
       userId,
-      images: await Promise.all(imagePromises),
+      images: combinedImages
     };
-  
+
     try {
-      const token = localStorage.getItem('token');
-  
-      const response = await fetch('https://localhost:7211/Auction/AddNew', {
+      const response = await fetch(`https://localhost:7211/Auction/Edit/${itemId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(auctionModel),
       });
-  
+
       if (response.ok) {
+        console.log('Item edited successfully!');
       } else {
-        console.error(
-          response.status,
-          response.statusText
-        );
+        console.error('Failed to edit item. Server returned:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error.message);
     }
   };
-  
   return (
     <div style={{ height: 'calc(100vh - 115px)' }}>
       <form
@@ -135,7 +152,7 @@ function AddItemFormComponent() {
             justifyContent: 'center',
           }}
         >
-          Dodaj przedmiot na sprzedaż
+          Edytuj przedmiot na sprzedaż
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label htmlFor="itemName" style={{ paddingTop: '20px' }}>
@@ -157,7 +174,7 @@ function AddItemFormComponent() {
             required
           />
 
-<label htmlFor="itemCategory" style={{ paddingTop: '20px' }}>
+          <label htmlFor="itemCategory" style={{ paddingTop: '20px' }}>
             Kategoria:
           </label>
           <select
@@ -181,8 +198,6 @@ function AddItemFormComponent() {
               </option>
             ))}
           </select>
-
-          
 
           <label htmlFor="itemDescription" style={{ paddingTop: '20px' }}>
             Opis przedmiotu:
@@ -253,7 +268,7 @@ function AddItemFormComponent() {
           <div style={{ display: 'grid' }}>
             {images.map((image, index) => (
               <div key={index} className="image-item" style={{ marginTop: '1em' }}>
-                <img src={URL.createObjectURL(image)} alt="" width="500" />
+                <img src={image instanceof File ? URL.createObjectURL(image) : image} alt="" width="500" />
                 <div
                   className="image-item__btn-wrapper"
                   style={{
@@ -278,6 +293,33 @@ function AddItemFormComponent() {
                 </div>
               </div>
             ))}
+            {existingImages.map((image, index) => (
+              <div key={index} className="image-item" style={{ marginTop: '1em' }}>
+                <img src={image.base64} alt="" width="500" />
+                <div
+                  className="image-item__btn-wrapper"
+                  style={{
+                    display: 'flex',
+                    alignContent: 'center',
+                  }}
+                >
+                  <button
+                    style={{
+                      padding: '5px',
+                      backgroundColor: '#E6AF2E',
+                      color: '#282F44',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      marginRight: '5px',
+                    }}
+                    onClick={() => handleRemoveExistingImage(index)}
+                  >
+                    Usuń
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -296,11 +338,11 @@ function AddItemFormComponent() {
             gridArea: '7/1/7/3',
           }}
         >
-          Dodaj przedmiot
+          Zapisz zmiany
         </button>
       </form>
     </div>
   );
 }
 
-export default AddItemFormComponent;
+export default EditItemFormComponent;

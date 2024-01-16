@@ -8,7 +8,6 @@ const productsPerPage = 10;
 
 const ItemListComponent = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { categoryId } = useParams();
 
   const totalProducts = products.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
@@ -30,7 +29,7 @@ const ItemListComponent = ({ products }) => {
             name={product.name}
             price={product.price}
             description={product.description}
-            images={product.images} // Przekazanie danych dotyczących zdjęć do komponentu Item
+            images={product.images} 
           />
         </Link>
       ))}
@@ -42,6 +41,7 @@ const ItemListComponent = ({ products }) => {
               display: 'flex',
               justifyContent: 'center',
               fontColor: '#fff'
+              
             }}
             count={totalPages}
             page={currentPage}

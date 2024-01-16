@@ -10,6 +10,8 @@ namespace App.Services.Interfaces
 {
     public interface IImageService
     {
+        Task DeleteImages(AuctionDTO auction);
         Task SaveImageAsync(AuctionDTO auction);
+        Task UpdateImages(AuctionDTO auction);
     }
 }

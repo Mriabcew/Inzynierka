@@ -44,14 +44,11 @@ export default function SignUp() {
 
    
     try {
-      // Wykonaj zapytanie POST do endpointu rejestracji na backendzie
       const response = await axios.post('https://localhost:7211/Security/Register', registrationData);
 
-      // Obsłuż odpowiedź z serwera (możesz dodać logikę obsługi sukcesu)
       console.log('Rejestracja udana:', response.data);
       setRegisterInformation('Rejestracja udana')
     } catch (error) {
-      // Obsłuż błędy (możesz dodać logikę obsługi błędów)
       console.error('Błąd podczas rejestracji:', error);
       setRegisterInformation('Błąd podczas rejestracji: ', error)
     }

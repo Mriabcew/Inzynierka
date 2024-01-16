@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 function StartPage() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [searchResults, setSearchResults] = useState(null);
   const [products, setProducts] = useState(null);
 
   const { categoryId } = useParams();
@@ -25,18 +24,15 @@ function StartPage() {
   }, []);
 
   useEffect(() => {
-    // Jeśli nie przekazano listy produktów jako prop, pobierz je za pomocą endpointu
     if (!products || products.length === 0) {
-      // Określenie odpowiedniego endpointu
       const apiUrl = categoryId
         ? `https://localhost:7211/Auction/GetAllByCategory/${categoryId}`
         : 'https://localhost:7211/Auction/GetAll';
 
-      // Pobieranie danych z endpointu
       axios.get(apiUrl)
         .then(response => {
-          const sortedProducts = response.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-          setProducts(sortedProducts);
+          const products = response.data;
+          setProducts(products);
         })
         .catch(error => {
           console.error('Błąd podczas pobierania danych:', error);
@@ -44,12 +40,8 @@ function StartPage() {
     }
   }, [categoryId, products]);
 
-  const handleSearchResults = (results) => {
-    setSearchResults(results);
-  };
 
   useEffect(() => {
-    // Ustawienie wybranej kategorii na podstawie parametru z adresu URL
     setSelectedCategory(categoryId);
     console.log(categoryId);
   }, [categoryId]);
@@ -57,14 +49,14 @@ function StartPage() {
   return (
     <div className='Page'>
       <div>
-        <LogoBarComponent onSearchResults={handleSearchResults} />
+        <LogoBarComponent />
       </div>
       <div>
         <CategoriesComponent categories={categories} />
       </div>
       <div>
-        {searchResults ? (
-          <ItemListComponent products={searchResults} />
+        {selectedCategory ? (
+          <ItemListComponent products={products} />
         ) : (
           <ItemListComponent products={products || []} selectedCategory={selectedCategory} />
         )}

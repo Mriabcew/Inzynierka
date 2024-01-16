@@ -29,3 +29,40 @@ a{
   .price {
     text-align: right;
   }
+
+
+  @media only screen and (max-width: 768px) {
+    .product{
+        display: flex;
+        flex-direction: column;
+        border: solid 1px #E6AF2E;
+        margin: 1em;
+        border-radius: 1em;
+        padding: 1em;
+        justify-content:space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        background-color: #fff;
+    }
+    
+    a{
+        text-decoration: none;
+        color:black;
+    }
+    
+    .product h3{
+        color:black;
+    }
+    
+    .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .price {
+        text-align: right;
+      }
+    
+  }

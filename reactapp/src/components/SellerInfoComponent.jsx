@@ -7,7 +7,6 @@ const SellerInfo = ({ userId }) => {
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
   useEffect(() => {
-    // Fetch user data from the endpoint
     axios.get(`https://localhost:7211/${userId}`)
       .then(response => {
         setUser(response.data);
@@ -48,7 +47,6 @@ const SellerInfo = ({ userId }) => {
        <p>Adres: {user.address}</p>
      </>
       )}
-      {/* Add more user information if needed */}
     </div>
   );
 };

@@ -38,7 +38,7 @@ namespace App.DAL.Repositories
         public async Task<List<Auction>> GetAllAuctionsAsync()
         {
             var auctions = await _context.Auctions
-            .Include(a => a.AuctionPhotos) // Dodaj to, aby załadować powiązane zdjęcia
+            .Include(a => a.AuctionPhotos)
             .ToListAsync();
             return auctions;
         }
@@ -61,9 +61,9 @@ namespace App.DAL.Repositories
         public async Task<List<Auction>> GetAuctionsByUserIdAsync(Guid userID)
         {
             var auctions = await _context.Auctions
-        .Include(a => a.AuctionPhotos) // Załaduj powiązane zdjęcia
-        .Where(a => a.UserId == userID)
-        .ToListAsync();
+            .Include(a => a.AuctionPhotos) // Załaduj powiązane zdjęcia
+            .Where(a => a.UserId == userID)
+            .ToListAsync();
 
             return auctions ?? new List<Auction>();
 
@@ -76,14 +76,15 @@ namespace App.DAL.Repositories
             {
                 throw new ArgumentException("Auction with given id does not exist");
             }
-
+            
             auctionToUpdate.Name = auction.Name;
             auctionToUpdate.Description = auction.Description;
             auctionToUpdate.Price = auction.Price;
             auctionToUpdate.Status = auction.Status;
             auctionToUpdate.AuctionPhotos = auction.AuctionPhotos;
+            _context.Auctions.Update(auctionToUpdate);
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return auctionToUpdate;
         }
     }

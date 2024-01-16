@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 
-function SearchbarComponent({onSearch}) {
+function SearchbarComponent() {
 
   const [inputText, setInputText] = useState("");
   let inputHandler = (e) => {
-    //convert input text to lower case
     setInputText(e.target.value.toLowerCase());
   }
 
   const handleSearch = () => {
-    onSearch(inputText); // Przekazanie wprowadzonego hasła do funkcji onSearch
-    console.log('Wyszukiwane hasło:', inputText);
   };
 
   return (
@@ -29,16 +27,16 @@ function SearchbarComponent({onSearch}) {
           background: 'rgba(255,255,255,0.8)',
           border: 'solid #282F44 1px',
           "& label.Mui-focused": {
-            color: '#282F44',  // Zmiana koloru labela na żółty po kliknięciu
+            color: '#282F44',
             background: '#E6AF2E',
             borderRadius: '0.75em',
             width:'15em',
-            fontSize: '1.2rem',  // Zwiększenie wielkości tekstu labela
+            fontSize: '1.2rem',
             fontWeight: 'bold',
           },
           "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
-              border: 'none',  // Usunięcie ramki po kliknięciu
+              border: 'none',
               color: '#282F44',
               borderRadius: '10px 0 0 10px',
             },
@@ -48,6 +46,7 @@ function SearchbarComponent({onSearch}) {
           },
         }}
       />
+      <Link style={{display:'flex'}} to={`/szukaj/${inputText}`}>
       <Button
         sx={{
           background: '#282F44',
@@ -58,6 +57,7 @@ function SearchbarComponent({onSearch}) {
         }}
         onClick={handleSearch}
       >
+        
         <SearchIcon
           sx={{
             color: '#E6AF2E',
@@ -67,6 +67,7 @@ function SearchbarComponent({onSearch}) {
           }}
         />
       </Button>
+      </Link>
     </div>
   );
 }

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import LogoBarComponent from '../components/LogoBarComponent';
 import axios from 'axios';
 import CategoriesComponent from '../components/CategoriesComponent';
 import ItemListComponent from '../components/ItemListComponent';
-import LogoBarComponent from '../components/LogoBarComponent';
-import { useParams } from 'react-router-dom';
 
-function StartPage() {
+function SearchResultPage() {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const { fraza } = useParams();
   const [products, setProducts] = useState([]);
-  const { categoryId } = useParams();
+
 
   useEffect(() => {
     axios.get('https://localhost:7211/Category/GetAll')
@@ -22,35 +23,40 @@ function StartPage() {
   }, []);
 
   useEffect(() => {
-    setSelectedCategory(categoryId);
-  }, [categoryId]);
+    setSearchPhrase(fraza);
+  }, [fraza]);
+
 
   useEffect(() => {
-    if (categoryId) {
-      const apiUrl = `https://localhost:7211/Auction/GetAllByCategory/${categoryId}`;
-
+      const apiUrl = 'https://localhost:7211/Auction/GetAll';
       axios.get(apiUrl)
         .then(response => {
-          const sortedProducts = response.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-          setProducts(sortedProducts);
+          const products = response.data;
+          setProducts(products);
         })
         .catch(error => {
           console.error('Błąd podczas pobierania danych:', error);
         });
     }
-  }, [categoryId]);
+  );
 
   return (
-    <div className='Page'>
-      <div><LogoBarComponent /></div>
+    <div>
+      <LogoBarComponent />
+      
       <div>
         <CategoriesComponent categories={categories} />
       </div>
       <div>
-        <ItemListComponent key={categoryId} products={products} selectedCategory={selectedCategory} />
+       
+          <ItemListComponent products={products.filter(p => p.name.toLowerCase().includes(searchPhrase.toLowerCase())
+            ||
+            p.description.toLowerCase().includes(searchPhrase.toLowerCase()
+            ))} />
       </div>
+      
     </div>
   );
 }
 
-export default StartPage;
+export default SearchResultPage;

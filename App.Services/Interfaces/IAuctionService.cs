@@ -22,6 +22,5 @@ namespace App.Services.Interfaces
         Task<List<AuctionDTO>> GetByCategory(Guid categoryId);
 
         Task<List<AuctionDTO>> GetByUser(Guid userID);
-        Task<bool> UpdateImage(AuctionDTO auctionModel);
     }
 }
